@@ -1,0 +1,72 @@
+*{ margin: 0; padding: 0;}
+.Smartahou-assert{
+	position: absolute;
+	left:30px;
+	top:100px;
+	box-shadow: 0px 0px 0px 0px black;
+	transition: box-shadow 0.5s;
+	z-index: 2147483647;
+}
+.Smartahou-assert-div{
+	position:relative;
+	width: 300px;
+	height: 500px;
+	overflow: auto;
+	border: 2px dotted black;
+}
+.Smartahou-assert-ul{
+	width: 100%;
+	font-size:12px;
+}
+.Smartahou-assert li{
+	list-style: none;
+	margin:3px 5px;
+	padding:5px;
+	font-size:1em;
+	border:1px solid black;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	line-height:18px;
+	cursor: pointer;
+}
+.Smartahou-right{
+	color: black;
+	background:#71C671;
+}
+.Smartahou-error{
+	color: white;
+	background:#CD5555;
+}
+.Smartahou-li-index{
+	color: white;
+	background: black;
+	padding:3px 8px;
+	font-size:0.7em;
+	border-radius:100px;
+	margin-right:5px;
+}
+.Smartahou-assert-li-moved{
+	box-shadow: 0px 0px 10px 3px #104E8B;
+}
+
+.Smartahou-assert-header-span{
+	position: absolute;
+	background: white;
+	font-size: 1em;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	padding: 2px 15px;
+	border-left: 2px dotted black;
+	border-right: 2px dotted black;
+	border-top: 2px dotted black;
+	top: -25px;
+	left: 130px;
+	border-top-left-radius: 100px;
+	border-top-right-radius: 100px;
+	cursor: pointer;
+}
+
+.Smartahou-assert-actived{
+	box-shadow: 1px 10px 30px 8px #4D4D4D;
+	transition: box-shadow 0.5s;
+}
