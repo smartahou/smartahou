@@ -2,7 +2,7 @@
  *	概要信息 = {
  *		"作者" : "代皓予" ,
  *  	"创建时间" : "2016/1/20" ,
- *   	"最后修改时间" : "2016/1/20" ,
+ *   	"最后修改时间" : "2016/1/21" ,
  *    	"用途" : "为了简单" 
  * 	}
  *
@@ -66,7 +66,20 @@
 		if(index !== -1){
 			return argu.substr(0,index);
 		}
-		return ext;	}
+		return ext;	
+	}
+
+	SA.text = function( ele , message ){
+		var text_content;
+		if(ele !== undefined){
+			text_content = ele.innerText === undefined ? 'textContent' : 'innerText';
+			if(text_content !== undefined && message !== undefined){
+				ele[text_content] = message;
+			}
+
+			return text_content;
+		}
+	}
 
 	SA.checkDataTypeError = function( dataType , value ){
 		if(this.type(value) !== dataType){  throw new TypeError('arguments\'s datatype is error!  datatype = '+this.type(value)+', I need '+dataType);}
@@ -90,6 +103,10 @@
 			reg = new RegExp(class_name);
 			ele.className = ele.className.replace(reg,'');
 		}	
+	}
+
+	SA.balabala = function(message , theme){
+		
 	}
 
 	SA.assert = function(flag , message){
@@ -126,8 +143,9 @@
 
 		li_ele = document.createElement('li');
 		li_ele.className = 'Smartahou-assert-li '+class_name;
-		li_ele.innerHTML = '<span class="Smartahou-li-index">'+index+'</span>'+message;
+		li_ele.innerHTML = '<span class="Smartahou-li-index">'+index+'</span><span class="Smartahou-li-content-'+index+'"></span>';
 		ul_ele.appendChild(li_ele);
+		this.text(document.getElementsByClassName('Smartahou-li-content-'+index)[0] , message	);
 
 		li_ele.onmousemove = function(){
 			SA.addClass(this,'Smartahou-assert-li-moved');
@@ -176,44 +194,5 @@
 			obj.style.left = localStorage['end_left'];
 		}
 	}
-
-/*
-	Object.defineProperty(Smartahou , 'type' , {
-		value : function( argu ){
-			if(argu !== argu){ return 'NaN'; }
-			if(argu == null){ return argu+''; }
-			try{
-				typeArr.forEach(function(i){
-					alert(i);
-				});
-			} catch(e){
-				alert(e);
-			}
-				
-		},
-		writable : false ,
-		enumerable : false ,
-		configurable : false
-	});
-
-
-
-	Object.defineProperty(Smartahou , 'is_array' , {
-		value : function( argu ){
-			if (Object.prototype.toString.call( argu ) === '[object Array]') {
-				return true;
-			}else{
-				return false;
-			}
-		},
-		writable : false ,
-		enumerable : false ,
-		configurable : false
-	});
-
-*/
-
-
-
 
 }())

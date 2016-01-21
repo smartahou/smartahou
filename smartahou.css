@@ -1,4 +1,9 @@
 *{ margin: 0; padding: 0;}
+
+/*
+	断言框  assert
+
+ */
 .Smartahou-assert{
 	position: absolute;
 	left:30px;
@@ -69,4 +74,43 @@
 .Smartahou-assert-actived{
 	box-shadow: 1px 10px 30px 8px #4D4D4D;
 	transition: box-shadow 0.5s;
+}
+
+
+/*
+	balabala 聊天框
+
+ */
+
+.balabala{
+	padding: 6px 14px;
+	border-radius: 10px;
+	display: inline-block;
+	position:absolute;
+	top:100px;
+	left:50px;
+	color: white;
+	background: black;
+	box-shadow: 5px 6px 10px 1px gray;
+}
+
+.balabala-inner{
+	position: relative;
+	min-width: 100px;
+	min-height: 80px;
+	max-width: 350px;
+	width: 100%;
+}
+
+.balabala-inner .balabala-arrows{
+	position: absolute;
+	bottom: -45px;
+	display: block;
+	left:50px;
+	border: 20px solid rgba(0,0,0,0);
+	border-top-color: black;
+	box-shadow: 5px 6px 10px 1px gray inset;
+
+
+
 }
