@@ -83,34 +83,100 @@
  */
 
 .balabala{
-	padding: 6px 14px;
-	border-radius: 10px;
 	display: inline-block;
 	position:absolute;
-	top:100px;
-	left:50px;
-	color: white;
-	background: black;
-	box-shadow: 5px 6px 10px 1px gray;
+	z-index: 2147483648;
+	opacity: 0;
 }
 
-.balabala-inner{
+.balabala>div[class^="balabala-inner"]{
 	position: relative;
 	min-width: 100px;
-	min-height: 80px;
-	max-width: 350px;
+	max-width: 300px;
 	width: 100%;
+	padding: 8px 14px;
+	line-height: 1.5em;
+	min-height: 1.5em;
+	font-family: 微软雅黑;
+	word-break: break-all;
+	word-wrap: break-word;
+	font-size: 0.9em;
+	box-shadow: 5px 6px 10px 1px gray;
+	color: white;
+	border-radius: 10px;
+	background: black;
 }
 
-.balabala-inner .balabala-arrows{
+.balabala>div[class^="balabala-inner"]>span[class^="balabala-arrows"]{
 	position: absolute;
-	bottom: -45px;
 	display: block;
-	left:50px;
-	border: 20px solid rgba(0,0,0,0);
-	border-top-color: black;
-	box-shadow: 5px 6px 10px 1px gray inset;
+	border-color: black;
+}
 
 
 
+
+/*  	信息状态主题	  */
+.balabala>div[class$="info"]{
+	background: #5CACEE;
+}
+.balabala>div[class$="info"]>span[class^="balabala-arrows"]{
+	border-color: #5CACEE;
+}
+
+/*  	警告状态主题	  */
+.balabala>div[class$="danger"]{
+	background: #CD2626;
+}
+.balabala>div[class$="danger"]>span[class^="balabala-arrows"]{
+	border-color: #CD2626;
+}
+
+/*  	成功状态主题	  */
+.balabala>div[class$="success"]{
+	background: #3CB371;
+}
+.balabala>div[class$="success"]>span[class^="balabala-arrows"]{
+	border-color: #3CB371;
+}
+
+
+.balabala>div[class^="balabala-inner"]>.balabala-arrows,.balabala>div[class^="balabala-inner"]>.balabala-arrows-top{
+	bottom: -24px;
+	left: 24px;
+	border-right: 10px solid rgba(0,0,0,0) !important;
+	border-bottom: 12px solid rgba(0,0,0,0) !important;
+	border-left: 10px solid rgba(0,0,0,0) !important;
+	border-top-width: 12px !important;
+	border-top-style: solid !important;
+}
+
+.balabala>div[class^="balabala-inner"]>.balabala-arrows-bottom{
+	top: -24px;
+	left: 24px;
+	border-right: 10px solid rgba(0,0,0,0) !important;
+	border-top: 12px solid rgba(0,0,0,0) !important;
+	border-left: 10px solid rgba(0,0,0,0) !important;
+	border-bottom-width: 12px !important;
+	border-bottom-style: solid !important;
+}
+
+.balabala>div[class^="balabala-inner"]>.balabala-arrows-left{
+	right: -24px;
+	top: 10px;
+	border-top: 10px solid rgba(0,0,0,0) !important;
+	border-bottom: 10px solid rgba(0,0,0,0) !important;
+	border-right: 12px solid rgba(0,0,0,0) !important;
+	border-left-width: 12px !important;
+	border-left-style: solid !important;
+}
+
+.balabala>div[class^="balabala-inner"]>.balabala-arrows-right{
+	left: -24px;
+	top: 10px;
+	border-top: 10px solid rgba(0,0,0,0) !important;
+	border-bottom: 10px solid rgba(0,0,0,0) !important;
+	border-left: 12px solid rgba(0,0,0,0) !important;
+	border-right-width: 12px !important;
+	border-right-style: solid !important;
 }

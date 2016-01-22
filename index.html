@@ -18,6 +18,30 @@
 				var a = 'file.ext';
 				console.log(SA.getFileName(a));
 				SA.assert(false,SA.type(0));
+				var balabala_key;
+				document.getElementsByClassName('Smartahou-assert-header-span')[0].onmouseover = function(){
+					balabala_key = SA.balabala({
+						message : '您可以用鼠标按住拖到想要放置的位置。' ,
+						ele : document.getElementsByClassName('Smartahou-assert-header-span')[0] ,
+					});
+
+	
+
+					SA.balabala({
+						message : '您可以用鼠标按住拖到想要放置的位置。' ,
+						ele : document.getElementsByClassName('Smartahou-assert-header-span')[0] ,
+						hidden : true,
+						keep_time: 5000,
+						direction: 'bottom'
+					});
+
+				}
+
+				document.getElementsByClassName('Smartahou-assert-header-span')[0].onmouseout = function(){
+					SA.balabalaOver(balabala_key,200);
+				}
+
+					
 				
 			}
 		</script>
@@ -26,15 +50,20 @@
 		<div style='height:1000px;'>
 			<div class='arrows_e'>1212</div>
 		</div>
-
-		<div class="balabala">
-			<div class='balabala-inner'>
-				<div class='balabala-inner-content'>
-					23112sdadasa213
-				</div>
-				<span class="balabala-arrows"></span>
-			</div>
+	
+		<div>
+			<div style='width:100px;height:100px;border:1px solid red;position:absolute;top: 300px;left: 500px;' id='ds'></div>
 		</div>
 	</body>
-
+	
+<script>
+	
+		SA.balabala({
+						message : '您可以用鼠标按住拖到想要放置的位置。' ,
+						ele : document.getElementById('ds') ,
+						hidden : true,
+						keep_time: 5000,
+						direction: 'top'
+					});
+</script>
 </html>

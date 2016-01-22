@@ -25,6 +25,8 @@
 
 	this.SA = Smartahou;
 
+	SA.balabala_obj = [];
+
 	var move_obj = null;
 
 
@@ -105,8 +107,147 @@
 		}	
 	}
 
-	SA.balabala = function(message , theme){
+	SA.balabala = function( obj ){
+		/*
+				obj = {
+					'thume' : 'success',
+					'direction' : 'top' ,
+					'ele' : DOM_NODE ,
+					'message' : '' ,
+				}
+
+		 */
+		var thume , 
+		message , 
+		direction , 
+		ele , 
+		top , 
+		left , 
+		div_ele , 
+		index , 
+		arrows , 
+		i , 
+		is_add_balabala_obj = true , 
+		balabala_obj_key , 
+		animate_time = 500 , 
+		is_auto_hidden = true,
+		arrows_offset_x = 24;
+		arrows_offset_y = 16;
+
+		for(i=0;i<this.balabala_obj.length;i++){
+			if(this.isLikeObj(this.balabala_obj[i],obj)){
+				is_add_balabala_obj = false;
+				balabala_obj_key = i;
+			}
+		}
+		//避免重复出现 所以对接收的参数进行判断 如果无重复的则进行创建
+		if(is_add_balabala_obj){
+			balabala_obj_key = this.balabala_obj.length; 
+			this.balabala_obj[balabala_obj_key] = obj;
+		}else{
+			return balabala_obj_key;
+		}
+
+		console.log(obj['direction'])
+		if(obj['ele'] !== undefined){
+			top = SA.getElementTop(obj['ele']);
+			left = SA.getElementLeft(obj['ele']);
+			SA.assert(true,'obj["ele"].offsetTop:'+top)
+			SA.assert(true,'obj["ele"].offsetLeft:'+left)
+			switch(obj['thume']){
+				case 'danger': thume = '-danger';break;
+				case 'info': thume = '-info';break;
+				case 'success': thume = '-success';break;
+				default : thume = '-black';
+			}
+
+			switch(obj['direction']){
+				case 'bottom': direction = '-bottom';break;
+				case 'left': direction = '-left';break;
+				case 'right': direction = '-right';break;
+				default : direction = '-top';
+			}
+
+
+			div_ele = document.createElement('div');
+			div_ele.className = 'balabala';
+			div_ele.id = 'balabala-'+balabala_obj_key;
+			div_ele.innerHTML = "<div class='balabala-inner"+thume+"'>\r\
+								<div class='content'></div>\r\
+								<span class='balabala-arrows"+direction+"'></span>\r\
+							</div>";
+
+			document.body.appendChild(div_ele);
+
+
+			SA.text(document.getElementById('balabala-'+balabala_obj_key).getElementsByClassName('content')[0],obj['message']);
+
+			arrows = document.getElementById('balabala-'+balabala_obj_key).getElementsByClassName("balabala-arrows"+direction)[0];
+			
+			//动态计算要依附于元素的绝对定位
+			if(direction === '-bottom'){
+				div_ele.style.top = (top-0) + ((obj['ele'].clientHeight-0) + (arrows_offset_y-0)) +'px';
+				div_ele.style.left = (left-0) - (arrows_offset_x-0) +'px';
+			}else if(direction === '-left'){
+				div_ele.style.top = (top-0) - (arrows_offset_y-0) +'px';
+				div_ele.style.left = (left-0) - (div_ele.clientWidth + arrows_offset_x*2) +'px';
+			}else if(direction === '-right'){
+				div_ele.style.top = (top-0) - (arrows_offset_y-0) +'px';
+				div_ele.style.left = left + (obj['ele'].clientWidth + arrows_offset_x) +'px';
+			}else{
+				div_ele.style.top = top - (div_ele.clientHeight + (arrows_offset_y-0)) +'px';
+				div_ele.style.left = (left-0) - (arrows_offset_x-0) +'px';
+			}
+			console.log(direction)
+			
+
+			div_ele.style.opacity = 1;
+			div_ele.style.transition = 'opacity '+(animate_time/1000)+'s';
+
+			if(obj['hidden'] === true && div_ele.isAnimate === undefined){
+				div_ele.isAnimate = 'yes';
+				setTimeout(function(){
+					div_ele.style.opacity = 0;
+					div_ele.style.transition = 'opacity '+(animate_time/1000)+'s';
+					setTimeout(function(){
+						SA.balabala_obj.splice(balabala_obj_key,1);
+						div_ele.parentNode.removeChild(div_ele);
+					},animate_time)
+						
+				} , (obj['keep_time']===undefined?7000:obj['keep_time']));
+			}
+
+			return balabala_obj_key;
+
+		}
 		
+	}
+
+	SA.balabalaOver = function(key , animate_time){
+		var obj;
+		animate_time = animate_time?animate_time:1000;
+		if(this.balabala_obj[key] !== undefined){
+			obj = document.getElementById('balabala-'+key);
+			if(obj !== null && obj.isAnimate === undefined){
+				obj.style.opacity = 0;
+				obj.style.transition = 'opacity '+(animate_time/1000)+'s';
+				obj.isAnimate = 'yes';
+				setTimeout(function(){
+					SA.balabala_obj.splice(key,1);
+					try{
+						obj.parentNode.removeChild(obj);
+					}catch(e) {
+						console.log(e);
+					}
+				},animate_time);
+			}else{
+				if(obj === null){
+					SA.balabala_obj.splice(key,1);
+				}
+			}
+				
+		}
+
 	}
 
 	SA.assert = function(flag , message){
@@ -184,6 +325,26 @@
 		}
 
 	}
+
+
+	SA.getElementLeft = function(element){
+　　　　var actualLeft = element.offsetLeft;
+　　　　var current = element.offsetParent;
+　　　　while (current !== null){
+　　　　　　actualLeft += current.offsetLeft;
+　　　　　　current = current.offsetParent;
+　　　　}
+　　　　return actualLeft;
+　　}
+　　SA.getElementTop = function(element){
+　　　　var actualTop = element.offsetTop;
+　　　　var current = element.offsetParent;
+　　　　while (current !== null){
+　　　　　　actualTop += current.offsetTop;
+　　　　　　current = current.offsetParent;
+　　　　}
+　　　　return actualTop;
+　　}
 	
 
 	SA.init = function(){
@@ -193,6 +354,22 @@
 			obj.style.top = localStorage['end_top'];
 			obj.style.left = localStorage['end_left'];
 		}
+	}
+
+	SA.isLikeObj = function(obj1 , obj2){
+		var i , flag = true;
+		this.checkDataTypeError('object',obj1);
+		this.checkDataTypeError('object',obj2);
+		if(obj1.length === obj2.length){
+			for(i in obj2){
+				if(!obj1.hasOwnProperty(i)){
+					flag = false;
+				}
+			}
+
+			return flag;			
+		}
+		return false;
 	}
 
 }())
