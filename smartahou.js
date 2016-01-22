@@ -148,12 +148,9 @@
 			return balabala_obj_key;
 		}
 
-		console.log(obj['direction'])
 		if(obj['ele'] !== undefined){
 			top = SA.getElementTop(obj['ele']);
 			left = SA.getElementLeft(obj['ele']);
-			SA.assert(true,'obj["ele"].offsetTop:'+top)
-			SA.assert(true,'obj["ele"].offsetLeft:'+left)
 			switch(obj['thume']){
 				case 'danger': thume = '-danger';break;
 				case 'info': thume = '-info';break;
@@ -187,7 +184,7 @@
 			//动态计算要依附于元素的绝对定位
 			if(direction === '-bottom'){
 				div_ele.style.top = (top-0) + ((obj['ele'].clientHeight-0) + (arrows_offset_y-0)) +'px';
-				div_ele.style.left = (left-0) - (arrows_offset_x-0) +'px';
+				div_ele.style.left = (left-0) - (arrows_offset_x/2) +'px';
 			}else if(direction === '-left'){
 				div_ele.style.top = (top-0) - (arrows_offset_y-0) +'px';
 				div_ele.style.left = (left-0) - (div_ele.clientWidth + arrows_offset_x*2) +'px';
@@ -196,7 +193,7 @@
 				div_ele.style.left = left + (obj['ele'].clientWidth + arrows_offset_x) +'px';
 			}else{
 				div_ele.style.top = top - (div_ele.clientHeight + (arrows_offset_y-0)) +'px';
-				div_ele.style.left = (left-0) - (arrows_offset_x-0) +'px';
+				div_ele.style.left = (left-0) - (arrows_offset_x/2) +'px';
 			}
 			console.log(direction)
 			
@@ -227,24 +224,27 @@
 		var obj;
 		animate_time = animate_time?animate_time:1000;
 		if(this.balabala_obj[key] !== undefined){
-			obj = document.getElementById('balabala-'+key);
-			if(obj !== null && obj.isAnimate === undefined){
-				obj.style.opacity = 0;
-				obj.style.transition = 'opacity '+(animate_time/1000)+'s';
-				obj.isAnimate = 'yes';
-				setTimeout(function(){
-					SA.balabala_obj.splice(key,1);
-					try{
-						obj.parentNode.removeChild(obj);
-					}catch(e) {
-						console.log(e);
+			setTimeout(function(){
+				obj = document.getElementById('balabala-'+key);
+				if(obj !== null && obj.isAnimate === undefined){
+					obj.style.opacity = 0;
+					obj.style.transition = 'opacity '+(animate_time/1000)+'s';
+					obj.isAnimate = 'yes';
+					setTimeout(function(){
+						SA.balabala_obj.splice(key,1);
+						try{
+							obj.parentNode.removeChild(obj);
+						}catch(e) {
+							console.log(e);
+						}
+					},animate_time);
+				}else{
+					if(obj === null){
+						SA.balabala_obj.splice(key,1);
 					}
-				},animate_time);
-			}else{
-				if(obj === null){
-					SA.balabala_obj.splice(key,1);
 				}
-			}
+			} ,1000)
+				
 				
 		}
 
@@ -363,6 +363,8 @@
 		if(obj1.length === obj2.length){
 			for(i in obj2){
 				if(!obj1.hasOwnProperty(i)){
+					flag = false;
+				}else if(obj1[i] !== obj2[i]){
 					flag = false;
 				}
 			}
