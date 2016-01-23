@@ -1,5 +1,5 @@
 *{ margin: 0; padding: 0;}
-
+a{ text-decoration: none; }
 /*
 	断言框  assert
 
@@ -33,6 +33,7 @@
 	font-weight: bold;
 	line-height:18px;
 	cursor: pointer;
+	position: relative;
 }
 .Smartahou-right{
 	color: black;
@@ -52,6 +53,7 @@
 }
 .Smartahou-assert-li-moved{
 	box-shadow: 0px 0px 10px 3px #104E8B;
+	transition: box-shadow 0.3s;
 }
 
 .Smartahou-assert-header-span{
@@ -69,11 +71,38 @@
 	border-top-left-radius: 100px;
 	border-top-right-radius: 100px;
 	cursor: pointer;
+	text-shadow: 1px 1px 20px black;
+	text-decoration: none;
+	color: black;
 }
 
 .Smartahou-assert-actived{
 	box-shadow: 1px 10px 30px 8px #4D4D4D;
 	transition: box-shadow 0.5s;
+}
+
+.Smartahou-assert-del{
+	position: absolute;
+	top: -3px;
+	right: -6px;
+	text-decoration: none;
+	border: 1px solid black;
+	color: white;
+	padding:0px;
+	background: #FF0000;
+	height: 15px;
+	line-height: 11px;
+	width: 15px;
+	text-align: center;
+	border-radius: 100px;
+	font-family: cursive;
+	box-shadow: 0px 0px 0px 0px red;
+	transition: box-shadow 0.2s;
+}
+.Smartahou-assert-del-mouseover{
+	box-shadow: 1px 1px 20px 3px red;
+	transition: box-shadow 0.2s;
+
 }
 
 
@@ -162,8 +191,8 @@
 }
 
 .balabala>div[class^="balabala-inner"]>.balabala-arrows-left{
-	right: -24px;
-	top: 10px;
+	right: -23px;
+	top: 8px;
 	border-top: 10px solid rgba(0,0,0,0) !important;
 	border-bottom: 10px solid rgba(0,0,0,0) !important;
 	border-right: 12px solid rgba(0,0,0,0) !important;
@@ -172,11 +201,60 @@
 }
 
 .balabala>div[class^="balabala-inner"]>.balabala-arrows-right{
-	left: -24px;
-	top: 10px;
+	left: -23px;
+	top: 8px;
 	border-top: 10px solid rgba(0,0,0,0) !important;
 	border-bottom: 10px solid rgba(0,0,0,0) !important;
 	border-left: 12px solid rgba(0,0,0,0) !important;
 	border-right-width: 12px !important;
 	border-right-style: solid !important;
+}
+
+
+
+/*********************			HeaderInfo							***************************/
+
+.Smartahou-show-info-box{
+	display:block;
+	width:100%;
+	position:absolute;
+	top:0px;
+}
+.Smartahou-show-info-box>.info{
+	position:relative;
+	text-align:center;
+	font-size:16px;
+	padding:6px 25px;
+	margin:0 auto;
+	min-width:250px;
+	max-width:800px;
+	line-height:25px;
+	word-wrap:break-word;
+	font-weight:bold;
+	border-bottom-left-radius:8px;
+	border-bottom-right-radius:8px;
+	margin-bottom:3px;
+}
+.Smartahou-show-info-box .error{
+	color:white;
+	background: #EE6363;
+	box-shadow:0 2px 12px 1px #EE6A50;
+}
+
+.Smartahou-show-info-box .success{
+	color:white;
+	background:#71C671;
+	box-shadow:0 2px 12px 1px #7CCD7C;
+}
+.Smartahou-show-info-box .close-sign{
+	position:absolute;
+	right:8px;
+	top:6px;
+	color:white;
+	padding:2px 7px;
+	border-radius:100px;
+	font-size:10px;
+	background: #CD0000;
+	line-height:18px;
+	font-family: cursive;
 }
