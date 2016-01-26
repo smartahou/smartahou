@@ -2,7 +2,7 @@
  *	概要信息 = {
  *		"作者" : "代皓予" ,
  *  	"创建时间" : "2016/1/20" ,
- *   	"最后修改时间" : "2016/1/21" ,
+ *   	"最后修改时间" : "2016/1/26" ,
  *    	"用途" : "为了简单" 
  * 	}
  *
@@ -15,6 +15,11 @@
  *  	SA.getFileName	//方法  用于返回文件的文件名 接收字符串
  *  	SA.text 	//方法  用于给节点添加文本内容
  *  	SA.checkDataTypeError	//方法  用于检查传入值的数据类型
+ *  	SA.show 	//方法 用于是一个或者多个元素显示 一个参数是dom节点  第二个参数是显示的时间毫秒
+ *  	SA.remove 	//方法 用于是一个或者多个元素删除 一个参数是dom节点  第二个参数是删除的时间毫秒
+ *  	SA.headerSuccess	//方法  用于删除顶端状态信息  成功状态的
+ *  	SA.headerWaring	//方法  用于删除顶端状态信息  失败状态的
+ *  
  *  }
  *
  *
@@ -32,6 +37,8 @@
 	this.SA = Smartahou;
 
 	SA.balabala_obj = [];
+
+	SA.headerInfo_obj = [];
 
 	var move_obj = null;
 
@@ -376,7 +383,7 @@
 	}
 
 	SA.headerInfo = function(state, info, speed){
-		var background, outer_div_ele , timepiece , temp_id;
+		var background, outer_div_ele , timepiece , temp_id , id_name , del_func;
 		switch(state){
 			case 'wrong' : background = '#CD3333',className = 'error';break;
 			case 'success' : background = '#71C671',className = 'success';break;
@@ -384,7 +391,12 @@
 		}
 		speed = ( speed !== undefined && !isNaN(speed) && speed) || 5000;
 		info = info.toString();
-		temp_id = new Date().valueOf();
+		temp_id = 0;
+		while(SA.headerInfo_obj[temp_id] !== undefined){
+			temp_id = Math.ceil(Math.random()*99999);
+		}
+
+		SA.headerInfo_obj[temp_id] = true;
 		outer_div_ele = document.getElementsByClassName('Smartahou-show-info-box')[0];
 
 
@@ -394,18 +406,26 @@
 			document.body.appendChild(outer_div_ele);
 		}
 
-		console.log(outer_div_ele)
-		SA.append(outer_div_ele,'<div class="'+className+' info" style="" id="div_'+temp_id+'">'+info+'\r\
-			<a class="close-sign" id="a_'+temp_id+'" href="javascript:void(0)">X</a>\r\
-			</div>');
-		timepiece = setTimeout(function(){
-			SA.remove(document.getElementById('div_'+temp_id));
-		} , speed);
-		document.getElementById('a_'+temp_id).onclick = function(){
-			clearTimeout(timepiece);
-			SA.remove(document.getElementById('div_'+temp_id));
+		id_name = 'div_'+temp_id;
+
+		SA.append(outer_div_ele,'<div class="'+className+' info" style="opacity:0;" id="'+id_name+'">'+info+'<a class="close-sign" id="a_'+temp_id+'" href="javascript:void(0)">X</a></div>');
+		
+		del_func = function(){
+			if(SA.headerInfo_obj[temp_id] === undefined){ return; }
+			SA.remove(document.getElementById(id_name));
+			SA.headerInfo_obj[temp_id] = undefined;
 		}
-		SA.show(document.getElementById('div_'+temp_id));
+		setTimeout(function(){
+			timepiece = setTimeout(function(){
+				del_func();
+			} , speed);
+			document.getElementById('a_'+temp_id).onclick = function(){
+				clearTimeout(timepiece);
+				del_func();
+			}
+		},10);
+			
+		SA.show(document.getElementById(id_name));
 	}
 
 	SA.headerWaring = function(info,speed){
@@ -437,18 +457,21 @@
 
 	SA.remove = function( ele , time ){
 		var temp_function;
-
 		temp_function = function( obj ){
-			if(obj.isRemove === undefined){
-				time = time === undefined ? 1000 : time;
-				
+			if(obj !== undefined && obj.isRemove === undefined){
+				time = (time === undefined ? 1000 : (isNaN(time)?1000:time));
+
 				obj.isRemove = 'yes';
 				obj.style.opacity = 0;
 				obj.style.transition = 'opacity '+(time/1000)+'s';
 
 				setTimeout(function(){
-					obj.parentNode.removeChild(obj);
-				},time - (time/10));
+					try{
+						obj.parentNode.removeChild(obj);
+					}catch(e){
+						console.log('catch',obj)
+					}
+				},time);
 			}
 		}
 		if(ele.length === undefined){
@@ -460,20 +483,14 @@
 			})
 		}
 	}
-
 	SA.show = function( ele , time ){
 		var temp_function;
 		temp_function = function( obj ){
-			if(obj.isShow === undefined){
-				time = time === undefined ? 1000 : time;
-				
+			if(obj !== undefined && obj.isShow === undefined){
 				obj.isShow = 'yes';
-				obj.style.opacity = 0;
-
-				setTimeout(function(){
-					obj.style.opacity = 1;
-					obj.style.transition = 'opacity '+(time/1000)+'s';
-				} , 10);
+				time = (time === undefined ? 1000 : (isNaN(time)?1000:time));
+				obj.style.opacity = '1';
+				obj.style.transition = 'opacity '+(time/1000)+'s';
 				
 			}
 		}
@@ -488,8 +505,7 @@
 	}
 	
 	SA.append = function( ele , insert_str ){
-		console.log(ele)
-		ele.insertBefore(insert_str,insert_str);
+		ele.innerHTML += insert_str;
 	}
 
 	SA.init = function(){
